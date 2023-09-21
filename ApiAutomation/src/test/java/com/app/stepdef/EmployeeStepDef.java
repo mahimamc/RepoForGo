@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -57,55 +60,31 @@ public class EmployeeStepDef extends Utils{
 	@When("the user calls {string} with get api call")
 	public void the_user_calls_with_get_api_call(String resourcePath) {
 		
-		response=getAllEmployee(resourcePath);
-		System.out.println(response.getBody().asString());
+		response=getAllEmployee(resourcePath);		
+		Arrays.asList(response.getBody().asString()).stream().forEach(System.out::println);
 	    
 	}
 	@When("the user calls {string} with get api call with id {int}")
 	public void the_user_calls_with_get_api_call(String resourcePath,int empId) {
 		
-		response=getEmployeeById(resourcePath,empId);
-		System.out.println(response.getBody().asString());
+		response=getEmployeeById(resourcePath,empId);		
+		Arrays.asList(response.getBody().asString()).stream().forEach(System.out::println);
 	    
 	}
 	@When("the user calls {string} with put api call with id {int}")
 	public void the_user_calls_with_put_api_call(String resourcePath, int empId) throws JsonMappingException, JsonProcessingException {
-				
+			
 		
-		requestSpecification=RestAssured.given().body(payLoad);
-		requestSpecification.contentType(ContentType.JSON);
-		response=requestSpecification.get(baseURI+resourcePath+empId);		
-		objectMapper=new ObjectMapper();
-		Employee empObj=objectMapper.readValue(response.getBody().asString(),Employee.class);
-		System.out.println(empObj.getFirstName());
-		System.out.println(empObj.getLastName());
-		System.out.println(empObj.getEmailId());
-		empObj.setEmailId("markwaugh@gmail.com");
-		objectMapper=new ObjectMapper();
-		payLoad=objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(empObj);
-		//String empObj=objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody().asString());
-		requestSpecification=RestAssured.given().body(payLoad);
-		requestSpecification.contentType(ContentType.JSON);
-		response=requestSpecification.put(baseURI+resourcePath+empId);
-		System.out.println(response.getBody().asString());
+		response=updateEmployeeById(resourcePath, empId);
+		Arrays.asList(response.getBody().asString()).stream().forEach(System.out::println);
 	    
 	}
 	@When("the user calls {string} with delete api call with id {int}")
 	public void the_user_calls_with_delete_api_call(String resourcePath, int empId) throws JsonMappingException, JsonProcessingException {
 		
-		
-		
-		requestSpecification=RestAssured.given().body(payLoad);
-		requestSpecification.contentType(ContentType.JSON);
-		response=requestSpecification.get(baseURI+resourcePath+empId);		
-		objectMapper=new ObjectMapper();
-		Employee empObj=objectMapper.readValue(response.getBody().asString(),Employee.class);		
-		objectMapper=new ObjectMapper();
-		payLoad=objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(empObj);		
-		requestSpecification=RestAssured.given().body(payLoad);
-		requestSpecification.contentType(ContentType.JSON);
-		response=requestSpecification.delete(baseURI+resourcePath+empId);
-		System.out.println(response.getBody().asString());
+				
+		response=deleteEmployeeById(resourcePath, empId);
+		Arrays.asList(response.getBody().asString()).stream().forEach(System.out::println);
 	    
 	}
 

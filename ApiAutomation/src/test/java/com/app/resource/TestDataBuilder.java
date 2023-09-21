@@ -10,9 +10,9 @@ public class TestDataBuilder {
 		
 		public Employee createEmployeePayload() {
 
-			reqPayload.setFirstName("Anupama");
-		    reqPayload.setLastName("Chhinchani");
-		    reqPayload.setEmailId("a@gmail.com");	
+			reqPayload.setFirstName("Andrew");
+		    reqPayload.setLastName("Anderson");
+		    reqPayload.setEmailId("andrew@gmail.com");	
 		    return reqPayload;
 			
 		}
